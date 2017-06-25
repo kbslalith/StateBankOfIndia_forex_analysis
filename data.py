@@ -6,7 +6,7 @@ import csv
 import numpy as np
 import datetime as dt
 import os.path;os.remove
-from itertools import islice
+import sys
 
 
 class Data_Work :
@@ -35,20 +35,23 @@ class Data_Work :
 
 	if (os.path.exists("sbi_sellrates.csv") == True) : 
 		with open (final_file,'r') as test :
-			for line in islice(test, 1, None):
-				if Todays_Date in line:
-					found = True
-					print "VALUE ALREADY RECORDED"		# WARN IF THE VALUE IS ALREADY RECORDED !
-					break
-				else:
-					with open(final_file, 'a') as p : 
-						writer = csv.DictWriter(p, fieldnames=fieldnames)
-						writer.writerow({'DATE': dt.datetime.today().strftime("%d/%m/%Y"), 'TT_SELL': TT_SELL, 'TT_BUY': TT_BUY})
+			temp = test.read()						# I AM SO GENIUS !
+			if Todays_Date in temp:
+				found = True
+				print "VALUE ALREADY RECORDED"		# NOTIFY IF THE VALUE IS ALREADY RECORDED !
+
+			else:
+				with open(final_file, 'a') as p : 
+					print line
+					print "I HAVE COME HERE MAN"
+					writer = csv.DictWriter(p, fieldnames=fieldnames)
+					writer.writerow({'DATE': dt.datetime.today().strftime("%d/%m/%Y"), 'TT_SELL': TT_SELL, 'TT_BUY': TT_BUY})
 
 	############# 		OTHERWISE CREATE A NEWFILE AND ADD THERE		 ############
-
 	else:
 		with open(final_file, 'w') as p : 
 			writer = csv.DictWriter(p, fieldnames=fieldnames)
 			writer.writeheader()
 			writer.writerow({'DATE': dt.datetime.today().strftime("%d/%m/%Y"), 'TT_SELL': TT_SELL, 'TT_BUY': TT_BUY})
+
+	print "SHEET UPDATED"		
