@@ -7,6 +7,8 @@ from forex_python.converter import CurrencyRates
 Data_Work() # FIRST UPDATE THE LATEST VALUE OF TT_SELL IN THE CSV FILE
 c = CurrencyRates()
 rate = c.get_rate('EUR', 'INR')
-
 print rate
 
+# with open ('liverate.csv','w') as live:
+# 	writer = csv.DictWriter(live, fieldnames=fieldnames)
+	
